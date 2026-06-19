@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     git \
     build-essential \
+    cmake \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
