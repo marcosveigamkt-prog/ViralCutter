@@ -640,7 +640,7 @@ with gr.Blocks(title=i18n("ViralCutter WebUI"), theme=gr.themes.Default(primary_
                  highlight_size_input, words_per_block_input, gap_limit_input, mode_input, 
                  underline_input, strikeout_input, border_style_input, remove_punc_input,
                  video_quality_input, use_youtube_subs_input, translate_input
-             ], outputs=[logs_output, start_btn, stop_btn, results_html])
+             ], outputs=[logs_output, start_btn, stop_btn, results_html], show_progress="minimal")
 
 
         with gr.Tab(i18n("Subtitle Editor")):
