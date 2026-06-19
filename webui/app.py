@@ -407,17 +407,17 @@ with gr.Blocks(title=i18n("ViralCutter WebUI"), theme=gr.themes.Default(primary_
                     
                     def on_source_change(source):
                         if source == "YouTube URL":
-                            return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False), gr.update(value="Full") 
+                            return gr.update(visible=True), gr.update(visible=False), gr.update(visible=False), gr.update(value="Full"), gr.update(value=i18n("Start Processing"))
                         elif source == "Upload Video":
-                             return gr.update(visible=False), gr.update(visible=False), gr.update(visible=True), gr.update(value="Full")
+                             return gr.update(visible=False), gr.update(visible=False), gr.update(visible=True), gr.update(value="Full"), gr.update(value=i18n("Start Processing"))
                         else:
                             # Load projects
                             projs = library.get_existing_projects()
-                            return gr.update(visible=False), gr.update(choices=projs, visible=True), gr.update(visible=False), gr.update(value="Subtitles Only")
+                            return gr.update(visible=False), gr.update(choices=projs, visible=True), gr.update(visible=False), gr.update(value="Cut Only"), gr.update(value=i18n("Generate Cuts"))
                     
                     
                     with gr.Row():
-                        segments_input = gr.Number(label=i18n("Segments"), value=3, precision=0)
+                        segments_input = gr.Number(label=i18n("Quantos cortes gerar? (Segments)"), value=3, precision=0)
                         viral_input = gr.Checkbox(label=i18n("Viral Mode"), value=True)
                     themes_input = gr.Textbox(label=i18n("Themes"), placeholder=i18n("funny, sad..."), visible=False)
                     viral_input.change(lambda x: gr.update(visible=not x), viral_input, themes_input)
@@ -486,9 +486,7 @@ with gr.Blocks(title=i18n("ViralCutter WebUI"), theme=gr.themes.Default(primary_
                         no_face_mode_input = gr.Dropdown(choices=[(i18n("Padding (9:16)"), "padding"), (i18n("Zoom (Center)"), "zoom")], label=i18n("No Face Fallback"), value="zoom")
                     
                     
-                    # Update listeners now that all components are defined
-                    input_source.change(on_source_change, inputs=input_source, outputs=[url_input, project_selector, video_upload, workflow_input])
-             
+                    # Removed and moved down
              with gr.Accordion(i18n("Advanced Face Settings"), open=False):
                  face_preset_input = gr.Dropdown(choices=[(i18n(k), k) for k in FACE_PRESETS.keys()], label=i18n("Configuration Presets"), value="Default (Balanced)", interactive=True)
                  with gr.Row():
@@ -641,6 +639,9 @@ with gr.Blocks(title=i18n("ViralCutter WebUI"), theme=gr.themes.Default(primary_
                  underline_input, strikeout_input, border_style_input, remove_punc_input,
                  video_quality_input, use_youtube_subs_input, translate_input
              ], outputs=[logs_output, start_btn, stop_btn, results_html], show_progress="minimal")
+
+             # Source change event
+             input_source.change(on_source_change, inputs=input_source, outputs=[url_input, project_selector, video_upload, workflow_input, start_btn])
 
 
         with gr.Tab(i18n("Subtitle Editor")):
